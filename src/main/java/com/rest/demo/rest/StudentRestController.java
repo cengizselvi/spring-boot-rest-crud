@@ -16,7 +16,7 @@ public class StudentRestController {
     private  List<Student> theStudent;
 
     @PostConstruct
-    public void loadData() {
+    public void loadData() { // hemen çalışacak ve öğrenciler array'e aktarılmış olacak
         theStudent = new ArrayList<>();
         theStudent.add(new Student("Cengiz","Selvi"));
         theStudent.add(new Student("Buğra","Erten"));
@@ -38,26 +38,6 @@ public class StudentRestController {
         return theStudent.get(studentId);
     }
 
-    @ExceptionHandler // hata işleyicisi
-    // http://localhost:8080/api/students/5 tanımlı olmayan ID girildiğinde
-    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
 
-        StudentErrorResponse error = new StudentErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    // http://localhost:8080/api/students/fhsdfkds gibi geçersiz ID girildiğinde
-    public ResponseEntity<StudentErrorResponse> handleException(Exception exc) {
-
-        StudentErrorResponse error = new StudentErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
 
 }
